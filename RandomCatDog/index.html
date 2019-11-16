@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Cat & Dog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="results">
+        <div id="cat_result" class="result">
+            Random Cat Placeholder
+        </div>
+        <div id="dog_result" class="result">
+            Random Dog Placeholder
+        </div>
+    </div>
+    <div class="buttons">
+        <button id="cat_btn">Get Cat</button>
+        <button id="dog_btn">Get Dog</button>
+    </div>
+    <script>
+        const cat_result = document.querySelector('#cat_result');
+        const dog_result = document.querySelector('#dog_result');
+        const cat_btn = document.querySelector('#cat_btn');
+        const dog_btn = document.querySelector('#dog_btn');
+
+        cat_btn.addEventListener('click', getRandomCat);
+        dog_btn.addEventListener('click', getRandomDog);
+
+        function getRandomCat() {
+            fetch('https://aws.random.cat/meow')
+            .then(res => res.json())
+            .then(data => {
+                cat_result.innerHTML = `<img src="${data.file}" />`
+            });
+        }
+
+        function getRandomDog() {
+            fetch('https://random.dog/woof.json')
+            .then(res => res.json())
+            .then(data => {
+                if(data.url.includes('.mp4')){
+                    getRandomDog();
+                } else {
+                    dog_result.innerHTML = `<img src="${data.url}" />`
+                }
+            })
+        } 
+    </script>
+</body>
+</html>
